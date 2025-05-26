@@ -13,7 +13,7 @@ navigator.clipboard.writeText(text)
 }
 let cash = document.getElementById('textbox_id').value
 let target = "신한 110490028714"
-let msg = target + cash + "원"
+var msg = target + cash + "원"
 </script>
 
 <button onclick="copyToClipboard(msg)">계좌 복사하기</button>

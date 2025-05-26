@@ -1,0 +1,12 @@
+<script>
+function copyToClipboard(text) {
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      alert("복사됐어요!");
+    })
+    .catch(err => {
+      alert("복사 실패: " + err);
+    });
+}
+</script>
+<button onclick="copyToClipboard('신한 110490028714')">{title}님의 계좌 복사하기</button>

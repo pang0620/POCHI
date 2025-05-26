@@ -13,16 +13,19 @@
 
   <script>
     // 🔐 암호화된 계좌번호 문자열 (예: '우리 1002-123-456789')
-    const encryptedData = "U2FsdGVkX1+lA1MFi3TqMiB2+8U5Z6C7btdwYcDpK+U=";
+    //const encryptedData = "U2FsdGVkX1+lA1MFi3TqMiB2+8U5Z6C7btdwYcDpK+U=";
 
     function copyToClipboard() {
       const key = new URLSearchParams(location.search).get("key");
+      /*
       if (!key) {
         alert("복호화 키가 없습니다.");
         return;
       }
+      */
 
-      const decrypted = CryptoJS.AES.decrypt(encryptedData, key).toString(CryptoJS.enc.Utf8);
+      //const decrypted = CryptoJS.AES.decrypt(encryptedData, key).toString(CryptoJS.enc.Utf8);
+      const decrypted = "국민 111111-22-333333"
       const amount = document.getElementById("amount").value.trim();
       const finalText = amount ? `${decrypted} ${amount}원` : decrypted;
 

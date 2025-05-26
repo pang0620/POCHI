@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>POCHI</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
@@ -26,7 +27,7 @@
 
       const decrypted = CryptoJS.AES.decrypt(encryptedData, key).toString(CryptoJS.enc.Utf8);
       const amount = document.getElementById("amount").value.trim();
-      const finalText = decrypted + " " + amount; //? `${decrypted} ${amount}원` : decrypted;
+      const finalText = decrypted + " " + amount + "원"; //? `${decrypted} ${amount}원` : decrypted;
 
       navigator.clipboard.writeText(finalText)
         .then(() => alert("클립보드에 복사됐습니다!"))

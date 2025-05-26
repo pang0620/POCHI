@@ -9,4 +9,11 @@ function copyToClipboard(text) {
     });
 }
 </script>
-<button onclick="copyToClipboard('110-123-456789')">계좌 복사하기</button>
+
+<input type="text" id="user-id">
+<label for="user-id">원정도 줘볼까나? ㅋㅋ</label>
+<script>
+let cash = document.getElementById('textbox_id').value  
+</script>
+
+<button onclick="copyToClipboard('110-123-456789 ${textbox_id}원')">계좌 복사하기</button>

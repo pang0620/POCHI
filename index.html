@@ -1,19 +1,19 @@
-<script>
-function copyToClipboard(text) {
-  navigator.clipboard.writeText(text)
-    .then(() => {
-      alert("복사됐어요!");
-    })
-    .catch(err => {
-      alert("복사 실패: " + err);
-    });
-}
-</script>
-
 <input type="text" id="user-id">
 <label for="user-id">원정도 줘볼까나? ㅋㅋ</label>
+
 <script>
-let cash = document.getElementById('textbox_id').value  
+function copyToClipboard(text) {
+navigator.clipboard.writeText(text)
+  .then(() => {
+    alert("복사됐어요!");
+  })
+  .catch(err => {
+    alert("복사 실패: " + err);
+  });
+}
+let cash = document.getElementById('textbox_id').value
+let target = "신한 110490028714"
+let msg = target + cash + "원"
 </script>
 
-<button onclick="copyToClipboard(110-123-456789 <script>cash</script>원')">계좌 복사하기</button>
+<button onclick="copyToClipboard(msg)">계좌 복사하기</button>

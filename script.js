@@ -42,8 +42,9 @@ document.addEventListener('DOMContentLoaded', () => {
       mainTitle.textContent = `${data.name || '아티스트'}@POCHI`;
 
       if (data.accountNumber) {
+//		정보 중독으로 인한 주석 처리
+//        <p>아티스트: ${data.name || '정보 없음'}</p>
         accountInfoDisplay.innerHTML = `
-          <p>아티스트: ${data.name || '정보 없음'}</p>
           <p>공지사항: ${data.announce || '없음'}</p>
           <p>계좌번호: ${data.accountNumber}</p>
         `;

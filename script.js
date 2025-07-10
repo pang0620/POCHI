@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const mainTitle = document.getElementById('mainTitle');
+  const instructionMessage = document.getElementById('instructionMessage');
   const accountInfoDisplay = document.getElementById('accountInfoDisplay');
   const optionsContainer = document.getElementById('optionsContainer');
   const copyToClipboardButton = document.getElementById('copyToClipboardButton');
@@ -23,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     optionsContainer.innerHTML = '';
     optionsContainer.style.display = 'none';
     copyToClipboardButton.style.display = 'none';
+    instructionMessage.style.display = 'none'; // 안내 문구 초기 숨김
 
     try {
       const response = await fetch(`/api/getAccountNumber?id=${encodeURIComponent(artistId)}`);
@@ -35,6 +38,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
       currentArtistData = data;
 
+      // H1 타이틀 업데이트
+      mainTitle.textContent = `${data.name || '아티스트'}@POCHI`;
+
       if (data.accountNumber) {
         accountInfoDisplay.innerHTML = `
           <p>아티스트: ${data.name || '정보 없음'}</p>
@@ -42,6 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <p>계좌번호: ${data.accountNumber}</p>
         `;
         accountInfoDisplay.style.display = 'block';
+        instructionMessage.style.display = 'block'; // 정보 로드 후 안내 문구 표시
 
         // 옵션 버튼 생성
         if (data.option) {

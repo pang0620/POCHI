@@ -40,6 +40,13 @@ header h1 {
     justify-content: center;
 }
 
+#instructionMessage {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 20px;
+    line-height: 1.4;
+}
+
 #accountInfoDisplay {
     font-size: 1.1em;
     margin: 10px 0;

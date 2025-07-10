@@ -3,12 +3,26 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between; /* header, container, footer 간격 조절 */
     min-height: 100vh;
     margin: 0;
     background-color: #e9ecef;
     color: #343a40;
     line-height: 1.6;
+}
+
+header {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+header h1 {
+    margin: 0;
+    color: #007bff;
+    font-size: 1.8em;
 }
 
 .container {
@@ -19,12 +33,11 @@ body {
     max-width: 500px;
     width: 90%;
     text-align: center;
-}
-
-h1 {
-    color: #007bff;
-    margin-bottom: 20px;
-    font-size: 1.8em;
+    margin: 20px auto; /* 상하 여백 추가 */
+    flex-grow: 1; /* 남은 공간 채우기 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* 컨테이너 내부 요소 중앙 정렬 */
 }
 
 #accountInfoDisplay p {
@@ -79,4 +92,23 @@ button:active {
     background-color: #28a745;
     border: 2px solid #218838;
     box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+footer {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    background-color: #ffffff;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+footer a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }

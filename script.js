@@ -5,16 +5,23 @@ document.addEventListener('DOMContentLoaded', () => {
   const simulateNfcScanButton = document.getElementById('simulateNfcScanButton');
 
   let currentArtistData = null;
-  let selectedAmount = 0;
+
+  // 페이지 로드 시 기본 ID로 정보 조회
+  const urlParams = new URLSearchParams(window.location.search);
+  const initialArtistId = urlParams.get('id') || 'example'; // URL 파라미터에서 ID 가져오거나 'example' 사용
+  fetchAccountNumber(initialArtistId);
 
   async function fetchAccountNumber(artistId) {
     if (!artistId) {
       accountInfoDisplay.textContent = '오류: 아티스트 ID가 제공되지 않았습니다.';
+      accountInfoDisplay.style.display = 'block';
       return;
     }
 
     accountInfoDisplay.textContent = `정보 조회 중... (ID: ${artistId})`;
+    accountInfoDisplay.style.display = 'block';
     optionsContainer.innerHTML = '';
+    optionsContainer.style.display = 'none';
     copyToClipboardButton.style.display = 'none';
 
     try {
@@ -34,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <p>공지사항: ${data.announce || '없음'}</p>
           <p>계좌번호: ${data.accountNumber}</p>
         `;
+        accountInfoDisplay.style.display = 'block';
 
         // 옵션 버튼 생성
         if (data.option) {
@@ -43,37 +51,40 @@ document.addEventListener('DOMContentLoaded', () => {
             button.textContent = `${opt}원`;
             button.classList.add('option-button');
             button.addEventListener('click', () => {
-              selectedAmount = parseInt(opt);
-              // 모든 버튼에서 active 클래스 제거
-              document.querySelectorAll('.option-button').forEach(btn => btn.classList.remove('active'));
-              // 클릭된 버튼에 active 클래스 추가
-              button.classList.add('active');
-              copyToClipboardButton.style.display = 'block';
+              const textToCopy = `${currentArtistData.accountNumber} ${opt}원`;
+              navigator.clipboard.writeText(textToCopy).then(() => {
+                alert('클립보드에 복사되었습니다: ' + textToCopy);
+              }).catch(err => {
+                console.error('클립보드 복사 실패:', err);
+                alert('클립보드 복사 실패!');
+              });
             });
             optionsContainer.appendChild(button);
           });
+          optionsContainer.style.display = 'flex'; // 옵션이 있으면 표시
+          copyToClipboardButton.style.display = 'none'; // 옵션이 있으면 이 버튼은 숨김
         } else {
-          // 옵션이 없는 경우 바로 복사 버튼 표시
+          // 옵션이 없는 경우 계좌번호만 복사하는 버튼 표시
+          copyToClipboardButton.textContent = '계좌번호 복사';
           copyToClipboardButton.style.display = 'block';
+          optionsContainer.style.display = 'none';
         }
 
       } else {
         accountInfoDisplay.textContent = `오류: ${data.error || '정보를 찾을 수 없습니다.'}`;
+        accountInfoDisplay.style.display = 'block';
       }
     } catch (error) {
       console.error('정보 조회 중 오류 발생:', error);
       accountInfoDisplay.textContent = `오류: ${error.message}`;
+      accountInfoDisplay.style.display = 'block';
     }
   }
 
-  // 클립보드 복사 기능
+  // 클립보드 복사 기능 (옵션이 없는 경우 사용)
   copyToClipboardButton.addEventListener('click', () => {
     if (currentArtistData && currentArtistData.accountNumber) {
-      let textToCopy = `${currentArtistData.accountNumber}`;
-      if (selectedAmount > 0) {
-        textToCopy += ` ${selectedAmount}원`;
-      }
-
+      const textToCopy = `${currentArtistData.accountNumber}`;
       navigator.clipboard.writeText(textToCopy).then(() => {
         alert('클립보드에 복사되었습니다: ' + textToCopy);
       }).catch(err => {

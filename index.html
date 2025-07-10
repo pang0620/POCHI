@@ -7,17 +7,26 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <header>
+        <h1>POCHI</h1>
+    </header>
+
     <div class="container">
-        <div id="accountInfoDisplay">
-            <p>NFC 스캔 대기 중...</p>
+        <div id="accountInfoDisplay" style="display:none;">
+            <!-- Content will be loaded here by JavaScript -->
         </div>
 
-        <div id="optionsContainer"></div>
+        <div id="optionsContainer" style="display:none;"></div>
 
         <button id="copyToClipboardButton" style="display:none;">클립보드에 복사</button>
 
         <button id="simulateNfcScanButton">NFC 스캔 시뮬레이션</button>
     </div>
+
+    <footer>
+        <p>&copy; 2025 @pang</p>
+        <p><a href="https://github.com/pang0620/POCHI" target="_blank">GitHub Repository</a></p>
+    </footer>
 
     <script src="script.js"></script>
 </body>

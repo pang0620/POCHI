@@ -14,15 +14,15 @@ body {
 header {
     width: 100%;
     text-align: center;
-    padding: 15px 0;
+    padding: 10px 0; /* Smaller padding */
     background-color: #ffffff; /* White header */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Softer shadow */
 }
 
 header h1 {
     margin: 0;
     color: #333; /* Dark gray for title */
-    font-size: 1.8em;
+    font-size: 1.5em; /* Smaller font size */
 }
 
 .container {
@@ -63,12 +63,13 @@ header h1 {
     gap: 10px;
 }
 
+/* Default button style (for simulateNfcScanButton) */
 button {
     padding: 12px 25px;
     font-size: 1em;
-    background-color: #666; /* Medium gray button */
-    color: white;
-    border: none;
+    background-color: #e0e0e0; /* Lighter gray button */
+    color: #333;
+    border: 1px solid #ccc;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
@@ -76,7 +77,7 @@ button {
 }
 
 button:hover {
-    background-color: #555; /* Darker gray on hover */
+    background-color: #d0d0d0; /* Slightly darker on hover */
     transform: translateY(-1px); /* Subtle lift */
 }
 
@@ -84,31 +85,32 @@ button:active {
     transform: translateY(0);
 }
 
+/* Option button style (now main button style) */
 .option-button {
-    background-color: #e0e0e0; /* Lighter gray option button */
+    background-color: #666; /* Medium gray button */
     min-width: 100px;
-    color: #333;
-    border: 1px solid #ccc;
+    color: white;
+    border: none;
 }
 
 .option-button:hover {
-    background-color: #d0d0d0; /* Slightly darker on hover */
+    background-color: #555; /* Darker gray on hover */
 }
 
 .option-button.active {
-    background-color: #666; /* Darker gray when active */
+    background-color: #444; /* Even darker gray when active */
     color: white;
-    border: 1px solid #555;
+    border: none;
     box-shadow: 0 0 0 0.2rem rgba(102, 102, 102, 0.25); /* Gray shadow */
 }
 
 footer {
     width: 100%;
     text-align: center;
-    padding: 15px 0;
+    padding: 10px 0; /* Smaller padding */
     background-color: #ffffff; /* White footer */
-    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
-    font-size: 0.9em;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.05); /* Softer shadow */
+    font-size: 0.8em; /* Smaller font size */
     color: #6c757d;
 }
 

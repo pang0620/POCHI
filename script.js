@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (data.accountNumber) {
         accountInfoDisplay.innerHTML = `
-          <p><strong>아티스트 이름:</strong> ${data.name || '정보 없음'}</p>
+          <p><strong>아티스트:</strong> ${data.name || '정보 없음'}</p>
           <p><strong>공지사항:</strong> ${data.announce || '없음'}</p>
           <p><strong>계좌번호:</strong> ${data.accountNumber}</p>
         `;

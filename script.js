@@ -45,8 +45,8 @@ document.addEventListener('DOMContentLoaded', () => {
 //		정보 중독으로 인한 주석 처리
 //        <p>아티스트: ${data.name || '정보 없음'}</p>
         accountInfoDisplay.innerHTML = `
-          <p>공지사항: ${data.announce || '없음'}</p>
-          <p>계좌번호: ${data.accountNumber}</p>
+          <p>공지사항</p><h3>${data.announce || '없음'}</h3>
+          <p>계좌번호</p><h3>${data.accountNumber}</h3>
         `;
         accountInfoDisplay.style.display = 'block';
         instructionMessage.style.display = 'block'; // 정보 로드 후 안내 문구 표시

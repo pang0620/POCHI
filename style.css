@@ -6,8 +6,8 @@ body {
     justify-content: space-between;
     min-height: 100vh;
     margin: 0;
-    background-color: #f0f8ff; /* Pastel Blue */
-    color: #343a40;
+    background-color: #f8f8f8; /* Light gray background */
+    color: #333; /* Dark gray text */
     line-height: 1.6;
 }
 
@@ -15,21 +15,21 @@ header {
     width: 100%;
     text-align: center;
     padding: 15px 0;
-    background-color: #ffe4e1; /* Pastel Pink */
+    background-color: #ffffff; /* White header */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 header h1 {
     margin: 0;
-    color: #87ceeb; /* Sky Blue */
+    color: #333; /* Dark gray for title */
     font-size: 1.8em;
 }
 
 .container {
-    background-color: #ffffff;
+    background-color: #ffffff; /* White container */
     padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 5px; /* Slightly less rounded */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Softer shadow */
     max-width: 500px;
     width: 90%;
     text-align: center;
@@ -44,15 +44,15 @@ header h1 {
     font-size: 1.1em;
     margin: 10px 0;
     padding: 15px;
-    border-radius: 8px;
-    background-color: #fff0f5; /* Lighter Pastel Pink */
-    border: 1px solid #ffc0cb; /* Pink border */
+    border-radius: 5px;
+    background-color: #f0f0f0; /* Light gray background for info */
+    border: 1px solid #e0e0e0; /* Light gray border */
     text-align: left;
     line-height: 1.8;
 }
 
 #accountInfoDisplay strong {
-    color: #4682b4; /* Steel Blue */
+    color: #555; /* Slightly darker gray for strong text */
 }
 
 #optionsContainer {
@@ -66,18 +66,18 @@ header h1 {
 button {
     padding: 12px 25px;
     font-size: 1em;
-    background-color: #87ceeb; /* Sky Blue */
+    background-color: #666; /* Medium gray button */
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 button:hover {
-    background-color: #6a5acd; /* Slate Blue */
-    transform: translateY(-2px);
+    background-color: #555; /* Darker gray on hover */
+    transform: translateY(-1px); /* Subtle lift */
 }
 
 button:active {
@@ -85,33 +85,35 @@ button:active {
 }
 
 .option-button {
-    background-color: #add8e6; /* Light Blue */
+    background-color: #e0e0e0; /* Lighter gray option button */
     min-width: 100px;
-    color: #343a40;
+    color: #333;
+    border: 1px solid #ccc;
 }
 
 .option-button:hover {
-    background-color: #87cefa; /* Lighter Sky Blue */
+    background-color: #d0d0d0; /* Slightly darker on hover */
 }
 
 .option-button.active {
-    background-color: #ffb6c1; /* Light Pink */
-    border: 2px solid #ff69b4; /* Hot Pink */
-    box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
+    background-color: #666; /* Darker gray when active */
+    color: white;
+    border: 1px solid #555;
+    box-shadow: 0 0 0 0.2rem rgba(102, 102, 102, 0.25); /* Gray shadow */
 }
 
 footer {
     width: 100%;
     text-align: center;
     padding: 15px 0;
-    background-color: #ffe4e1; /* Pastel Pink */
+    background-color: #ffffff; /* White footer */
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
     font-size: 0.9em;
     color: #6c757d;
 }
 
 footer a {
-    color: #007bff;
+    color: #555; /* Dark gray link */
     text-decoration: none;
 }
 

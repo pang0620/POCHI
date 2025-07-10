@@ -3,10 +3,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between; /* header, container, footer 간격 조절 */
+    justify-content: space-between;
     min-height: 100vh;
     margin: 0;
-    background-color: #e9ecef;
+    background-color: #f0f8ff; /* Pastel Blue */
     color: #343a40;
     line-height: 1.6;
 }
@@ -15,13 +15,13 @@ header {
     width: 100%;
     text-align: center;
     padding: 15px 0;
-    background-color: #ffffff;
+    background-color: #ffe4e1; /* Pastel Pink */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
 header h1 {
     margin: 0;
-    color: #007bff;
+    color: #87ceeb; /* Sky Blue */
     font-size: 1.8em;
 }
 
@@ -33,21 +33,26 @@ header h1 {
     max-width: 500px;
     width: 90%;
     text-align: center;
-    margin: 20px auto; /* 상하 여백 추가 */
-    flex-grow: 1; /* 남은 공간 채우기 */
+    margin: 20px auto;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center; /* 컨테이너 내부 요소 중앙 정렬 */
+    justify-content: center;
 }
 
-#accountInfoDisplay p {
+#accountInfoDisplay {
     font-size: 1.1em;
     margin: 10px 0;
-    padding: 8px 15px;
-    border-radius: 5px;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: #fff0f5; /* Lighter Pastel Pink */
+    border: 1px solid #ffc0cb; /* Pink border */
     text-align: left;
+    line-height: 1.8;
+}
+
+#accountInfoDisplay strong {
+    color: #4682b4; /* Steel Blue */
 }
 
 #optionsContainer {
@@ -61,7 +66,7 @@ header h1 {
 button {
     padding: 12px 25px;
     font-size: 1em;
-    background-color: #007bff;
+    background-color: #87ceeb; /* Sky Blue */
     color: white;
     border: none;
     border-radius: 5px;
@@ -71,7 +76,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #6a5acd; /* Slate Blue */
     transform: translateY(-2px);
 }
 
@@ -80,25 +85,26 @@ button:active {
 }
 
 .option-button {
-    background-color: #6c757d;
+    background-color: #add8e6; /* Light Blue */
     min-width: 100px;
+    color: #343a40;
 }
 
 .option-button:hover {
-    background-color: #5a6268;
+    background-color: #87cefa; /* Lighter Sky Blue */
 }
 
 .option-button.active {
-    background-color: #28a745;
-    border: 2px solid #218838;
-    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+    background-color: #ffb6c1; /* Light Pink */
+    border: 2px solid #ff69b4; /* Hot Pink */
+    box-shadow: 0 0 0 0.2rem rgba(255, 105, 180, 0.25);
 }
 
 footer {
     width: 100%;
     text-align: center;
     padding: 15px 0;
-    background-color: #ffffff;
+    background-color: #ffe4e1; /* Pastel Pink */
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.05);
     font-size: 0.9em;
     color: #6c757d;

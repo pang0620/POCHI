@@ -43,16 +43,16 @@ header h1 {
 #accountInfoDisplay {
     font-size: 1.1em;
     margin: 10px 0;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: #f0f0f0; /* Light gray background for info */
-    border: 1px solid #e0e0e0; /* Light gray border */
-    text-align: left;
+    padding: 0; /* Removed padding */
+    border-radius: 0; /* Removed border-radius */
+    background-color: transparent; /* Removed background */
+    border: none; /* Removed border */
+    text-align: center; /* Center align */
     line-height: 1.8;
 }
 
 #accountInfoDisplay strong {
-    color: #555; /* Slightly darker gray for strong text */
+    /* Removed specific color, will be default text color */
 }
 
 #optionsContainer {
@@ -107,10 +107,10 @@ button:active {
 footer {
     width: 100%;
     text-align: center;
-    padding: 10px 0; /* Smaller padding */
+    padding: 10px 0; /* Smaller padding, same as header */
     background-color: #ffffff; /* White footer */
     box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.05); /* Softer shadow */
-    font-size: 0.8em; /* Smaller font size */
+    font-size: 0.8em; /* Smaller font size, same as header h1 */
     color: #6c757d;
 }
 

@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     const sheets = google.sheets({ version: 'v4', auth });
 
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-    const range = 'user_table!A:B';
+    const range = 'user_table!B:F'; // B열부터 F열까지 읽어옴
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -37,19 +37,26 @@ module.exports = async (req, res) => {
       return res.status(404).json({ error: '시트에서 데이터를 찾을 수 없습니다.' });
     }
 
-    let accountNumber = null;
-    for (let i = 1; i < rows.length; i++) {
+    let artistData = null;
+    // 첫 번째 행은 헤더이므로 i = 1부터 시작
+    for (let i = 0; i < rows.length; i++) { // B열부터 시작하므로 row[0]이 ID
       const row = rows[i];
-      if (row[0] === artistId) {
-        accountNumber = row[1];
+      if (row[0] === artistId) { // B열이 ID
+        artistData = {
+          artistId: row[0], // B열
+          name: row[1],     // C열
+          accountNumber: row[2], // D열
+          option: row[3],   // E열
+          announce: row[4]  // F열
+        };
         break;
       }
     }
 
-    if (accountNumber) {
-      return res.status(200).json({ artistId, accountNumber });
+    if (artistData) {
+      return res.status(200).json(artistData);
     } else {
-      return res.status(404).json({ error: `ID '${artistId}'에 대한 계좌번호를 찾을 수 없습니다.` });
+      return res.status(404).json({ error: `ID '${artistId}'에 대한 정보를 찾을 수 없습니다.` });
     }
 
   } catch (error) {

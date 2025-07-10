@@ -13,31 +13,22 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const response = await fetch(`/api/getAccountNumber?id=${encodeURIComponent(artistId)}`);
 
-      // --- 디버깅 코드 시작 ---
-      const contentType = response.headers.get('content-type');
-      console.log('서버 응답 Content-Type:', contentType);
-
-      const responseText = await response.text();
-      console.log('서버 응답 Raw Text:', responseText);
-
-      // 응답 텍스트를 다시 스트림으로 변환하여 .json() 호출이 가능하도록 함
-      const newResponse = new Response(responseText, {
-        status: response.status,
-        statusText: response.statusText,
-        headers: response.headers
-      });
-      // --- 디버깅 코드 끝 ---
-
-      if (!newResponse.ok) { // newResponse로 변경
-        const errorData = await newResponse.json(); // newResponse로 변경
-        throw new Error(errorData.error || `HTTP 오류! 상태: ${newResponse.status}`);
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP 오류! 상태: ${response.status}`);
       }
 
-      const data = await newResponse.json(); // newResponse로 변경
+      const data = await response.json();
       if (data.accountNumber) {
-        accountNumberDisplay.textContent = `아티스트 ${data.artistId}의 계좌번호: ${data.accountNumber}`;
+        accountNumberDisplay.innerHTML = `
+          <p>아티스트 ID: ${data.artistId}</p>
+          <p>이름: ${data.name}</p>
+          <p>계좌번호: ${data.accountNumber}</p>
+          <p>옵션: ${data.option || '없음'}</p>
+          <p>공지: ${data.announce || '없음'}</p>
+        `;
       } else {
-        accountNumberDisplay.textContent = `오류: ${data.error || '계좌번호를 찾을 수 없습니다.'}`;
+        accountNumberDisplay.textContent = `오류: ${data.error || '정보를 찾을 수 없습니다.'}`;
       }
     } catch (error) {
       console.error('계좌번호 조회 중 오류 발생:', error);
@@ -47,8 +38,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (simulateNfcScanButton) {
     simulateNfcScanButton.addEventListener('click', () => {
-      const simulatedArtistId = 'artist-A';
-      fetchAccountNumber(simulatedArtistId);
+      const simulatedArtistId = prompt('조회할 아티스트 ID를 입력하세요:');
+      if (simulatedArtistId) {
+        fetchAccountNumber(simulatedArtistId);
+      }
     });
   }
 });

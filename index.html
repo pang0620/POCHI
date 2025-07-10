@@ -7,16 +7,17 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>NFC 태그를 스캔하여 계좌 정보 확인</h1>
-    <div id="accountInfoDisplay">
-        <p>NFC 스캔 대기 중...</p>
+    <div class="container">
+        <div id="accountInfoDisplay">
+            <p>NFC 스캔 대기 중...</p>
+        </div>
+
+        <div id="optionsContainer"></div>
+
+        <button id="copyToClipboardButton" style="display:none;">클립보드에 복사</button>
+
+        <button id="simulateNfcScanButton">NFC 스캔 시뮬레이션</button>
     </div>
-
-    <div id="optionsContainer"></div>
-
-    <button id="copyToClipboardButton" style="display:none;">클립보드에 복사</button>
-
-    <button id="simulateNfcScanButton">NFC 스캔 시뮬레이션</button>
 
     <script src="script.js"></script>
 </body>

@@ -4,13 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const accountInfoDisplay = document.getElementById('accountInfoDisplay');
   const optionsContainer = document.getElementById('optionsContainer');
   const copyToClipboardButton = document.getElementById('copyToClipboardButton');
+  const totalAmountDisplay = document.getElementById('totalAmountDisplay');
+  const totalAmountSpan = document.getElementById('totalAmount');
   const simulateNfcScanButton = document.getElementById('simulateNfcScanButton');
 
   let currentArtistData = null;
+  let totalAmount = 0;
 
-  // 페이지 로드 시 기본 ID로 정보 조회
   const urlParams = new URLSearchParams(window.location.search);
-  const initialArtistId = urlParams.get('id') || 'example'; // URL 파라미터에서 ID 가져오거나 'example' 사용
+  const initialArtistId = urlParams.get('id') || 'example';
   fetchAccountNumber(initialArtistId);
 
   async function fetchAccountNumber(artistId) {
@@ -25,7 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
     optionsContainer.innerHTML = '';
     optionsContainer.style.display = 'none';
     copyToClipboardButton.style.display = 'none';
-    instructionMessage.style.display = 'none'; // 안내 문구 초기 숨김
+    instructionMessage.style.display = 'none';
+    totalAmountDisplay.style.display = 'none';
+    totalAmount = 0;
+    totalAmountSpan.textContent = '0';
 
     try {
       const response = await fetch(`/api/getAccountNumber?id=${encodeURIComponent(artistId)}`);
@@ -38,44 +43,46 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
       currentArtistData = data;
 
-      // H1 타이틀 업데이트
       mainTitle.textContent = `${data.name || '아티스트'}@POCHI`;
 
       if (data.accountNumber) {
-//		정보 중독으로 인한 주석 처리
-//        <p>아티스트: ${data.name || '정보 없음'}</p>
         accountInfoDisplay.innerHTML = `
           <p>계좌번호</p><h1>${data.accountNumber}</h1>
           <p>공지사항</p><h2>${data.announce || '없음'}</h2>
         `;
         accountInfoDisplay.style.display = 'block';
-        instructionMessage.style.display = 'block'; // 정보 로드 후 안내 문구 표시
+        instructionMessage.style.display = 'block';
 
-        // 옵션 버튼 생성
         if (data.option) {
           const options = data.option.split(',').map(s => s.trim());
           options.forEach(opt => {
             const button = document.createElement('button');
+            const amount = parseInt(opt.replace(/[^0-9]/g, ''), 10);
             button.textContent = `${opt}원`;
             button.classList.add('option-button');
+            button.dataset.amount = amount;
+
             button.addEventListener('click', () => {
-              const textToCopy = `${currentArtistData.accountNumber} ${opt}원`;
-              navigator.clipboard.writeText(textToCopy).then(() => {
-                alert('클립보드에 복사되었습니다: ' + textToCopy);
-              }).catch(err => {
-                console.error('클립보드 복사 실패:', err);
-                alert('클립보드 복사 실패!');
-              });
+              if (button.classList.contains('active')) {
+                totalAmount -= amount;
+                button.classList.remove('active');
+              } else {
+                totalAmount += amount;
+                button.classList.add('active');
+              }
+              totalAmountSpan.textContent = totalAmount.toLocaleString();
             });
+
             optionsContainer.appendChild(button);
           });
-          optionsContainer.style.display = 'flex'; // 옵션이 있으면 표시
-          copyToClipboardButton.style.display = 'none'; // 옵션이 있으면 이 버튼은 숨김
+          optionsContainer.style.display = 'flex';
+          totalAmountDisplay.style.display = 'block';
+          copyToClipboardButton.style.display = 'block';
         } else {
-          // 옵션이 없는 경우 계좌번호만 복사하는 버튼 표시
           copyToClipboardButton.textContent = '계좌번호 복사';
           copyToClipboardButton.style.display = 'block';
           optionsContainer.style.display = 'none';
+          totalAmountDisplay.style.display = 'none';
         }
 
       } else {
@@ -89,10 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 클립보드 복사 기능 (옵션이 없는 경우 사용)
   copyToClipboardButton.addEventListener('click', () => {
     if (currentArtistData && currentArtistData.accountNumber) {
-      const textToCopy = `${currentArtistData.accountNumber}`;
+      let textToCopy = currentArtistData.accountNumber;
+      if (totalAmount > 0) {
+        textToCopy += ` ${totalAmount}`;
+      }
       navigator.clipboard.writeText(textToCopy).then(() => {
         alert('클립보드에 복사되었습니다: ' + textToCopy);
       }).catch(err => {

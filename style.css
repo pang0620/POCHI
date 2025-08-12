@@ -92,23 +92,53 @@ button:active {
     transform: translateY(0);
 }
 
-/* Option button style (now main button style) */
-.option-button {
-    background-color: #666; /* Medium gray button */
+/* Styles for quantity input items */
+.option-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
     min-width: 100px;
-    color: white;
-    border: none;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease-in-out;
 }
 
-.option-button:hover {
-    background-color: #555; /* Darker gray on hover */
+.option-item:hover {
+    border-color: #bbb;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.option-button.active {
-    background-color: #444; /* Even darker gray when active */
-    color: white;
-    border: none;
-    box-shadow: 0 0 0 0.2rem rgba(102, 102, 102, 0.25); /* Gray shadow */
+.amount-label {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 8px;
+}
+
+.quantity-input {
+    width: 70px;
+    padding: 8px;
+    font-size: 1em;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -moz-appearance: textfield; /* Firefox */
+}
+
+.quantity-input::-webkit-outer-spin-button,
+.quantity-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.quantity-input:focus {
+    outline: none;
+    border-color: #666;
+    box-shadow: 0 0 0 0.2rem rgba(102, 102, 102, 0.25);
 }
 
 footer {
@@ -128,4 +158,45 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between buttons and display */
+    margin-top: 8px; /* Space from amount label */
+}
+
+.quantity-btn {
+    padding: 5px 10px;
+    font-size: 1em;
+    background-color: #e0e0e0; /* Consistent with existing button style */
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 30px; /* Fixed width for buttons */
+    height: 30px; /* Fixed height for buttons */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-1px);
+}
+
+.quantity-btn:active {
+    transform: translateY(0);
+}
+
+.quantity-display {
+    font-size: 1.1em;
+    font-weight: bold;
+    min-width: 30px; /* Ensure enough space for numbers */
+    text-align: center;
+    padding: 0 5px;
 }

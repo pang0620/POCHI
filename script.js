@@ -4,13 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const accountInfoDisplay = document.getElementById('accountInfoDisplay');
   const optionsContainer = document.getElementById('optionsContainer');
   const copyToClipboardButton = document.getElementById('copyToClipboardButton');
+  const totalAmountDisplay = document.getElementById('totalAmountDisplay');
+  const totalAmountSpan = document.getElementById('totalAmount');
   const simulateNfcScanButton = document.getElementById('simulateNfcScanButton');
 
   let currentArtistData = null;
+  let totalAmount = 0;
 
-  // 페이지 로드 시 기본 ID로 정보 조회
   const urlParams = new URLSearchParams(window.location.search);
-  const initialArtistId = urlParams.get('id') || 'example'; // URL 파라미터에서 ID 가져오거나 'example' 사용
+  const initialArtistId = urlParams.get('id') || 'example';
   fetchAccountNumber(initialArtistId);
 
   async function fetchAccountNumber(artistId) {
@@ -25,7 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
     optionsContainer.innerHTML = '';
     optionsContainer.style.display = 'none';
     copyToClipboardButton.style.display = 'none';
-    instructionMessage.style.display = 'none'; // 안내 문구 초기 숨김
+    instructionMessage.style.display = 'none';
+    totalAmountDisplay.style.display = 'none';
+    totalAmount = 0;
+    totalAmountSpan.textContent = '0';
 
     try {
       const response = await fetch(`/api/getAccountNumber?id=${encodeURIComponent(artistId)}`);
@@ -38,44 +43,89 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
       currentArtistData = data;
 
-      // H1 타이틀 업데이트
       mainTitle.textContent = `${data.name || '아티스트'}@POCHI`;
 
       if (data.accountNumber) {
-//		정보 중독으로 인한 주석 처리
-//        <p>아티스트: ${data.name || '정보 없음'}</p>
         accountInfoDisplay.innerHTML = `
           <p>계좌번호</p><h1>${data.accountNumber}</h1>
           <p>공지사항</p><h2>${data.announce || '없음'}</h2>
         `;
         accountInfoDisplay.style.display = 'block';
-        instructionMessage.style.display = 'block'; // 정보 로드 후 안내 문구 표시
+        instructionMessage.style.display = 'block';
 
-        // 옵션 버튼 생성
         if (data.option) {
           const options = data.option.split(',').map(s => s.trim());
-          options.forEach(opt => {
-            const button = document.createElement('button');
-            button.textContent = `${opt}원`;
-            button.classList.add('option-button');
-            button.addEventListener('click', () => {
-              const textToCopy = `${currentArtistData.accountNumber} ${opt}원`;
-              navigator.clipboard.writeText(textToCopy).then(() => {
-                alert('클립보드에 복사되었습니다: ' + textToCopy);
-              }).catch(err => {
-                console.error('클립보드 복사 실패:', err);
-                alert('클립보드 복사 실패!');
-              });
+          // Function to recalculate total amount
+          const recalculateTotal = () => {
+            totalAmount = 0;
+            document.querySelectorAll('.option-item').forEach(item => {
+              const amount = parseInt(item.dataset.amount, 10);
+              const quantity = parseInt(item.querySelector('.quantity-display').textContent, 10); // Changed this line
+              if (!isNaN(amount) && !isNaN(quantity) && quantity > 0) {
+                totalAmount += amount * quantity;
+              }
             });
-            optionsContainer.appendChild(button);
+            totalAmountSpan.textContent = totalAmount.toLocaleString();
+          };
+
+          options.forEach(opt => {
+            const amount = parseInt(opt.replace(/[^0-9]/g, ''), 10);
+            if (isNaN(amount)) return; // Skip if amount is not a valid number
+
+            const optionItem = document.createElement('div');
+            optionItem.classList.add('option-item');
+            optionItem.dataset.amount = amount;
+
+            const amountLabel = document.createElement('span');
+            amountLabel.classList.add('amount-label');
+            amountLabel.textContent = `${amount.toLocaleString()}원`; // Display amount with '원'
+
+            const quantityControls = document.createElement('div');
+            quantityControls.classList.add('quantity-controls');
+
+            const minusButton = document.createElement('button');
+            minusButton.classList.add('quantity-btn', 'minus-btn');
+            minusButton.textContent = '-';
+
+            const quantitySpan = document.createElement('span');
+            quantitySpan.classList.add('quantity-display');
+            quantitySpan.textContent = '0'; // Initial quantity
+
+            const plusButton = document.createElement('button');
+            plusButton.classList.add('quantity-btn', 'plus-btn');
+            plusButton.textContent = '+';
+
+            minusButton.addEventListener('click', () => {
+                let currentQuantity = parseInt(quantitySpan.textContent, 10);
+                if (currentQuantity > 0) {
+                    quantitySpan.textContent = currentQuantity - 1;
+                    recalculateTotal();
+                }
+            });
+
+            plusButton.addEventListener('click', () => {
+                let currentQuantity = parseInt(quantitySpan.textContent, 10);
+                quantitySpan.textContent = currentQuantity + 1;
+                recalculateTotal();
+            });
+
+            quantityControls.appendChild(minusButton);
+            quantityControls.appendChild(quantitySpan);
+            quantityControls.appendChild(plusButton);
+
+            optionItem.appendChild(amountLabel);
+            optionItem.appendChild(quantityControls);
+            optionsContainer.appendChild(optionItem);
           });
-          optionsContainer.style.display = 'flex'; // 옵션이 있으면 표시
-          copyToClipboardButton.style.display = 'none'; // 옵션이 있으면 이 버튼은 숨김
+          recalculateTotal(); // Initial calculation
+          optionsContainer.style.display = 'flex';
+          totalAmountDisplay.style.display = 'block';
+          copyToClipboardButton.style.display = 'block';
         } else {
-          // 옵션이 없는 경우 계좌번호만 복사하는 버튼 표시
           copyToClipboardButton.textContent = '계좌번호 복사';
           copyToClipboardButton.style.display = 'block';
           optionsContainer.style.display = 'none';
+          totalAmountDisplay.style.display = 'none';
         }
 
       } else {
@@ -89,10 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 클립보드 복사 기능 (옵션이 없는 경우 사용)
   copyToClipboardButton.addEventListener('click', () => {
     if (currentArtistData && currentArtistData.accountNumber) {
-      const textToCopy = `${currentArtistData.accountNumber}`;
+      let textToCopy = currentArtistData.accountNumber;
+      if (totalAmount > 0) {
+        textToCopy += ` ${totalAmount}원`;
+      }
       navigator.clipboard.writeText(textToCopy).then(() => {
         alert('클립보드에 복사되었습니다: ' + textToCopy);
       }).catch(err => {

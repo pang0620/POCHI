@@ -159,3 +159,44 @@ footer a {
 footer a:hover {
     text-decoration: underline;
 }
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Space between buttons and display */
+    margin-top: 8px; /* Space from amount label */
+}
+
+.quantity-btn {
+    padding: 5px 10px;
+    font-size: 1em;
+    background-color: #e0e0e0; /* Consistent with existing button style */
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 30px; /* Fixed width for buttons */
+    height: 30px; /* Fixed height for buttons */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-btn:hover {
+    background-color: #d0d0d0;
+    transform: translateY(-1px);
+}
+
+.quantity-btn:active {
+    transform: translateY(0);
+}
+
+.quantity-display {
+    font-size: 1.1em;
+    font-weight: bold;
+    min-width: 30px; /* Ensure enough space for numbers */
+    text-align: center;
+    padding: 0 5px;
+}

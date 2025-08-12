@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             totalAmount = 0;
             document.querySelectorAll('.option-item').forEach(item => {
               const amount = parseInt(item.dataset.amount, 10);
-              const quantity = parseInt(item.querySelector('.quantity-input').value, 10);
+              const quantity = parseInt(item.querySelector('.quantity-display').textContent, 10); // Changed this line
               if (!isNaN(amount) && !isNaN(quantity) && quantity > 0) {
                 totalAmount += amount * quantity;
               }
@@ -80,16 +80,41 @@ document.addEventListener('DOMContentLoaded', () => {
             amountLabel.classList.add('amount-label');
             amountLabel.textContent = `${amount.toLocaleString()}원`; // Display amount with '원'
 
-            const quantityInput = document.createElement('input');
-            quantityInput.type = 'number';
-            quantityInput.min = '0';
-            quantityInput.value = '0';
-            quantityInput.classList.add('quantity-input');
+            const quantityControls = document.createElement('div');
+            quantityControls.classList.add('quantity-controls');
 
-            quantityInput.addEventListener('input', recalculateTotal);
+            const minusButton = document.createElement('button');
+            minusButton.classList.add('quantity-btn', 'minus-btn');
+            minusButton.textContent = '-';
+
+            const quantitySpan = document.createElement('span');
+            quantitySpan.classList.add('quantity-display');
+            quantitySpan.textContent = '0'; // Initial quantity
+
+            const plusButton = document.createElement('button');
+            plusButton.classList.add('quantity-btn', 'plus-btn');
+            plusButton.textContent = '+';
+
+            minusButton.addEventListener('click', () => {
+                let currentQuantity = parseInt(quantitySpan.textContent, 10);
+                if (currentQuantity > 0) {
+                    quantitySpan.textContent = currentQuantity - 1;
+                    recalculateTotal();
+                }
+            });
+
+            plusButton.addEventListener('click', () => {
+                let currentQuantity = parseInt(quantitySpan.textContent, 10);
+                quantitySpan.textContent = currentQuantity + 1;
+                recalculateTotal();
+            });
+
+            quantityControls.appendChild(minusButton);
+            quantityControls.appendChild(quantitySpan);
+            quantityControls.appendChild(plusButton);
 
             optionItem.appendChild(amountLabel);
-            optionItem.appendChild(quantityInput);
+            optionItem.appendChild(quantityControls);
             optionsContainer.appendChild(optionItem);
           });
           recalculateTotal(); // Initial calculation

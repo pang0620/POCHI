@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (data.option) {
           const options = data.option.split(',').map(s => s.trim());
+          const menus = (data.menu || '').split(',').map(s => s.trim());
+
           // Function to recalculate total amount
           const recalculateTotal = () => {
             totalAmount = 0;
@@ -68,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
             totalAmountSpan.textContent = totalAmount.toLocaleString();
           };
 
-          options.forEach(opt => {
+          options.forEach((opt, index) => {
             const amount = parseInt(opt.replace(/[^0-9]/g, ''), 10);
             if (isNaN(amount)) return; // Skip if amount is not a valid number
 
@@ -76,9 +78,12 @@ document.addEventListener('DOMContentLoaded', () => {
             optionItem.classList.add('option-item');
             optionItem.dataset.amount = amount;
 
+            const menuText = menus[index] && menus[index].trim() !== '' ? `${menus[index]}` : '';
+            const displayText = menuText ? `${menuText} - ${amount.toLocaleString()}원` : `${amount.toLocaleString()}원`;
+
             const amountLabel = document.createElement('span');
             amountLabel.classList.add('amount-label');
-            amountLabel.textContent = `${amount.toLocaleString()}원`; // Display amount with '원'
+            amountLabel.textContent = displayText;
 
             const quantityControls = document.createElement('div');
             quantityControls.classList.add('quantity-controls');

@@ -24,7 +24,7 @@ module.exports = async (req, res) => {
     const sheets = google.sheets({ version: 'v4', auth });
 
     const spreadsheetId = process.env.GOOGLE_SHEET_ID;
-    const range = 'user_table!B:F'; // B열부터 F열까지 읽어옴
+    const range = 'user_table!B:G'; // B열부터 G열까지 읽어옴
 
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
@@ -46,8 +46,9 @@ module.exports = async (req, res) => {
           artistId: row[0], // B열
           name: row[1],     // C열
           accountNumber: row[2], // D열
-          option: row[3],   // E열
-          announce: row[4]  // F열
+          menu: row[3],     // E열
+          option: row[4],   // F열
+          announce: row[5]  // G열
         };
         break;
       }

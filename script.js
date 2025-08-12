@@ -55,26 +55,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (data.option) {
           const options = data.option.split(',').map(s => s.trim());
-          options.forEach(opt => {
-            const button = document.createElement('button');
-            const amount = parseInt(opt.replace(/[^0-9]/g, ''), 10);
-            button.textContent = `${opt}원`;
-            button.classList.add('option-button');
-            button.dataset.amount = amount;
-
-            button.addEventListener('click', () => {
-              if (button.classList.contains('active')) {
-                totalAmount -= amount;
-                button.classList.remove('active');
-              } else {
-                totalAmount += amount;
-                button.classList.add('active');
+          // Function to recalculate total amount
+          const recalculateTotal = () => {
+            totalAmount = 0;
+            document.querySelectorAll('.option-item').forEach(item => {
+              const amount = parseInt(item.dataset.amount, 10);
+              const quantity = parseInt(item.querySelector('.quantity-input').value, 10);
+              if (!isNaN(amount) && !isNaN(quantity) && quantity > 0) {
+                totalAmount += amount * quantity;
               }
-              totalAmountSpan.textContent = totalAmount.toLocaleString();
             });
+            totalAmountSpan.textContent = totalAmount.toLocaleString();
+          };
 
-            optionsContainer.appendChild(button);
+          options.forEach(opt => {
+            const amount = parseInt(opt.replace(/[^0-9]/g, ''), 10);
+            if (isNaN(amount)) return; // Skip if amount is not a valid number
+
+            const optionItem = document.createElement('div');
+            optionItem.classList.add('option-item');
+            optionItem.dataset.amount = amount;
+
+            const amountLabel = document.createElement('span');
+            amountLabel.classList.add('amount-label');
+            amountLabel.textContent = `${amount.toLocaleString()}원`; // Display amount with '원'
+
+            const quantityInput = document.createElement('input');
+            quantityInput.type = 'number';
+            quantityInput.min = '0';
+            quantityInput.value = '0';
+            quantityInput.classList.add('quantity-input');
+
+            quantityInput.addEventListener('input', recalculateTotal);
+
+            optionItem.appendChild(amountLabel);
+            optionItem.appendChild(quantityInput);
+            optionsContainer.appendChild(optionItem);
           });
+          recalculateTotal(); // Initial calculation
           optionsContainer.style.display = 'flex';
           totalAmountDisplay.style.display = 'block';
           copyToClipboardButton.style.display = 'block';
@@ -100,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (currentArtistData && currentArtistData.accountNumber) {
       let textToCopy = currentArtistData.accountNumber;
       if (totalAmount > 0) {
-        textToCopy += ` ${totalAmount}`;
+        textToCopy += ` ${totalAmount}원`;
       }
       navigator.clipboard.writeText(textToCopy).then(() => {
         alert('클립보드에 복사되었습니다: ' + textToCopy);
